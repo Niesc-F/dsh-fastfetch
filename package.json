@@ -1,0 +1,63 @@
+{
+  "name": "dsh-fastfetch",
+  "version": "0.6.4",
+  "type": "module",
+  "description": "Fastfetch-style system info and DSH runtime panel: slash command, tool, colored desktop card, settings page",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "fastfetch",
+    "system-info",
+    "neofetch"
+  ],
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "LICENSE",
+    "README.en.md",
+    "README.md",
+    "client.js",
+    "cordis.patch.yml",
+    "docs/**/*.md",
+    "docs/images/*.png",
+    "icon.svg",
+    "index.js",
+    "locale/*.json",
+    "src/**/*.js"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-chat"
+      ]
+    }
+  },
+  "license": "MIT",
+  "author": "Niesc-F",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niesc-F/dsh-fastfetch.git"
+  },
+  "homepage": "https://github.com/Niesc-F/dsh-fastfetch#readme",
+  "bugs": {
+    "url": "https://github.com/Niesc-F/dsh-fastfetch/issues"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Fastfetch system info",
+    "description": "Prints a fastfetch-style snapshot of the machine and the DSH runtime."
+  }
+}
