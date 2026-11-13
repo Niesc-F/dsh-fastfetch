@@ -185,8 +185,7 @@ window.__ModuleLoader__.load({
         sectionFeatures: '功能开关',
         sectionAppearance: '外观',
         sectionNumbers: '尺寸',
-        sectionModules: '显示模块',
-        sectionDsh: 'DSH 信息',
+        sectionModules: '系统信息',
         sectionThresholds: '告警阈值',
         field_logo: 'DSH 字标',
         field_logoPosition: '字标位置',
@@ -277,8 +276,7 @@ window.__ModuleLoader__.load({
         sectionFeatures: 'Features',
         sectionAppearance: 'Appearance',
         sectionNumbers: 'Sizes',
-        sectionModules: 'Modules',
-        sectionDsh: 'DSH sections',
+        sectionModules: 'System info',
         sectionThresholds: 'Thresholds',
         field_logo: 'DSH wordmark',
         field_logoPosition: 'Wordmark position',
@@ -619,23 +617,6 @@ window.__ModuleLoader__.load({
                 h('span', { key: 's' }, label),
               ])
             })),
-        ]),
-
-        card('dsh', t('sectionDsh'), [
-          h('div', { key: 'g', style: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 4 } },
-            Object.keys(draft.dsh ?? {}).filter((key) => typeof draft.dsh[key] === 'boolean').map((key) =>
-              h('label', {
-                key,
-                style: { display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, cursor: 'pointer', color: 'var(--dsw-alias-label-primary, #e6edf3)' },
-              }, [
-                h('input', {
-                  key: 'c',
-                  type: 'checkbox',
-                  checked: draft.dsh[key] === true,
-                  onChange: (event) => update(['dsh', key], event.target.checked),
-                }),
-                h('span', { key: 's' }, t(`field_${key}`) || key),
-              ]))),
         ]),
 
         card('thresholds', t('sectionThresholds'), [
