@@ -1,6 +1,6 @@
 # dsh-fastfetch
 
-[English](README.en.md) | 简体中文
+[English](https://github.com/Niesc-F/dsh-fastfetch/blob/master/README.en.md) | 简体中文
 
 fastfetch 风格的 DSH 系统信息面板：一条命令 / 一个工具，输出系统信息与 DSH 运行环境快照。
 

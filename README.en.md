@@ -1,6 +1,6 @@
 # dsh-fastfetch
 
-English | [简体中文](README.md)
+English | [简体中文](https://github.com/Niesc-F/dsh-fastfetch/blob/master/README.md)
 
 A fastfetch-style system information panel for DSH: one command and one tool that print a snapshot of the machine and the running DSH environment.
 
