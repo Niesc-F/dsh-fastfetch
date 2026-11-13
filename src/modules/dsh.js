@@ -42,7 +42,7 @@ export const dshModules = [
     id: 'dsh-mode',
     category: 'dsh',
     default: true,
-    labels: { en: 'Session mode', zh: '会话模式' },
+    labels: { en: 'Mode', zh: '会话模式' },
     icons: { emoji: '🧭', ascii: 'MODE', nerd: '\uf0eb' },
     async collect(env, options) {
       if (!options.dsh.showMode) return null
@@ -127,7 +127,7 @@ export const dshModules = [
     id: 'dsh-cwd',
     category: 'dsh',
     default: true,
-    labels: { en: 'Working directory', zh: '工作目录' },
+    labels: { en: 'Directory', zh: '工作目录' },
     icons: { emoji: '📁', ascii: 'CWD', nerd: '\uf07b' },
     async collect(env, options) {
       if (!options.dsh.showCwd) return null

@@ -4,7 +4,7 @@ English | [简体中文](https://github.com/Niesc-F/dsh-fastfetch/blob/master/RE
 
 A fastfetch-style system information panel for DSH: one command and one tool that print a snapshot of the machine and the running DSH environment.
 
-![Sample output](docs/images/preview.png)
+![Sample output](docs/images/preview-en.png)
 
 ## Features
 
