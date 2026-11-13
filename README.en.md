@@ -135,8 +135,9 @@ Run `/fastfetch --list-modules` for the live list.
 
 ## Platform support
 
-| Platform | Status |
+| Item | Status |
 | --- | --- |
+| DSH | 0.2.2-rc.3 (declared in `peerDependencies`; working on rc.1 and up, plugin APIs checked unchanged in rc.2 and rc.3) |
 | Windows | Verified on Windows 11 hardware |
 | Linux | Implemented, including distribution detection; **not verified on hardware** |
 | macOS | Implemented; **not verified on hardware** |
