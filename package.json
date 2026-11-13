@@ -1,6 +1,6 @@
 {
   "name": "dsh-fastfetch",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "type": "module",
   "description": "Fastfetch-style system info and DSH runtime panel: slash command, tool, colored desktop card, settings page",
   "keywords": [

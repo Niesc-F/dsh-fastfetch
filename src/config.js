@@ -5,7 +5,7 @@
  * 类型校验和范围收敛。用户只写想覆盖的字段，其余取默认值。
  */
 
-export const PLUGIN_VERSION = '0.6.4'
+export const PLUGIN_VERSION = '0.6.5'
 
 export const DEFAULT_MODULES = [
   'title',

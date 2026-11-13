@@ -160,7 +160,7 @@ window.__ModuleLoader__.load({
           margin: 0,
           fontFamily: INFO_FONT_STACK,
           fontSize: 'var(--dsh-code-font-size, 11px)',
-          lineHeight: 1.5,
+          lineHeight: 1.05,
           whiteSpace: 'pre',
           color: 'var(--dsw-alias-label-primary, #e6edf3)',
         },
