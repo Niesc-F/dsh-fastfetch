@@ -137,7 +137,7 @@ dsh plugin --profile desktop add https://github.com/Niesc-F/dsh-fastfetch
 
 | 项目 | 状态 |
 | --- | --- |
-| DSH | 0.2.2-rc.3（`peerDependencies` 声明；rc.1 起实测可用，rc.2、rc.3 已核对插件 API 无变更） |
+| DSH | 0.2.2-rc.3（rc.1 起实测可用，rc.2、rc.3 已核对插件 API 无变更） |
 | Windows | 已在 Windows 11 实机验证 |
 | Linux | 已实现（含各发行版识别），**未实机验证** |
 | macOS | 已实现，**未实机验证** |
