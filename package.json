@@ -37,18 +37,6 @@
   "engines": {
     "node": ">=22"
   },
-  "peerDependencies": {
-    "@deepseek-ai/dsh-client-ui-chat": "^0.2.2-rc.3",
-    "@deepseek-ai/dsh-client-ui-conversation": "^0.2.2-rc.3"
-  },
-  "peerDependenciesMeta": {
-    "@deepseek-ai/dsh-client-ui-chat": {
-      "optional": true
-    },
-    "@deepseek-ai/dsh-client-ui-conversation": {
-      "optional": true
-    }
-  },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
