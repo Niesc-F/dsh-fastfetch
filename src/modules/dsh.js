@@ -127,7 +127,7 @@ export const dshModules = [
     id: 'dsh-cwd',
     category: 'dsh',
     default: true,
-    labels: { en: 'Directory', zh: '工作目录' },
+    labels: { en: 'Workspace', zh: '工作目录' },
     icons: { emoji: '📁', ascii: 'CWD', nerd: '\uf07b' },
     async collect(env, options) {
       if (!options.dsh.showCwd) return null
