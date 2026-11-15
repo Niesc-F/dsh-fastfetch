@@ -70,7 +70,7 @@ async function detectGpu() {
           '-Command',
           '(Get-CimInstance Win32_VideoController | Select-Object -ExpandProperty Name) -join "`n"',
         ],
-        { timeoutMs: 1500 },
+        { timeoutMs: 4000 },
       )
       if (result.ok && result.stdout) {
         const picked = pickKnownGpus(result.stdout.split('\n'))
