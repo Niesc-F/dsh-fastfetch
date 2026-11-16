@@ -20,6 +20,44 @@ function readJson(file) {
   }
 }
 
+/**
+ * 从 app.asar 头部读出主包版本。
+ * DSH 新版把版本号收进了 asar，磁盘上不再有 resources/package.json；
+ * 这里自己解析 asar 目录再来定位 package.json，不依赖 Electron 的 fs 补丁，
+ * 普通 node 进程也能读。只读头部和一个小文件，不会把整个 asar 读进内存。
+ */
+function readAsarVersion(asarPath) {
+  let fd
+  try {
+    fd = fs.openSync(asarPath, 'r')
+    const head = Buffer.alloc(16)
+    if (fs.readSync(fd, head, 0, 16, 0) < 16) return undefined
+    if (head.readUInt32LE(0) !== 4) return undefined
+    const headerPickleSize = head.readUInt32LE(4)
+    const jsonLength = head.readUInt32LE(12)
+    if (!headerPickleSize || !jsonLength || jsonLength > 64 * 1024 * 1024) return undefined
+    const headerBuffer = Buffer.alloc(jsonLength)
+    fs.readSync(fd, headerBuffer, 0, jsonLength, 16)
+    const node = JSON.parse(headerBuffer.toString('utf8'))?.files?.['package.json']
+    if (!node || typeof node.size !== 'number') return undefined
+    const dataStart = 8 + headerPickleSize
+    const fileBuffer = Buffer.alloc(node.size)
+    fs.readSync(fd, fileBuffer, 0, node.size, dataStart + Number(node.offset ?? 0))
+    const pkg = JSON.parse(fileBuffer.toString('utf8'))
+    return typeof pkg?.version === 'string' && pkg.version ? pkg.version : undefined
+  } catch {
+    return undefined
+  } finally {
+    if (fd !== undefined) {
+      try {
+        fs.closeSync(fd)
+      } catch {
+        // 关闭失败不影响结果
+      }
+    }
+  }
+}
+
 function readDshVersion() {
   const candidates = []
   if (process.resourcesPath) candidates.push(path.join(process.resourcesPath, 'package.json'))
@@ -29,6 +67,23 @@ function readDshVersion() {
   for (const file of candidates) {
     const pkg = readJson(file)
     if (pkg && typeof pkg.version === 'string' && pkg.version) return pkg.version
+  }
+  // 新版只有 asar：依次试 <安装目录>/resources/app.asar 和进程自身的 resources
+  const asarCandidates = []
+  if (process.resourcesPath) asarCandidates.push(path.join(process.resourcesPath, 'app.asar'))
+  asarCandidates.push(path.join(execDir, 'resources', 'app.asar'))
+  asarCandidates.push(path.join(execDir, '..', 'resources', 'app.asar'))
+  if (process.env.DSH_INSTALL_DIR) {
+    // DSH_INSTALL_DIR 指向 ...\app.asar\dsh\node_modules\@deepseek-ai\dsh
+    const marker = `${path.sep}app.asar${path.sep}`
+    const at = process.env.DSH_INSTALL_DIR.indexOf(marker)
+    if (at > 0) {
+      asarCandidates.unshift(`${process.env.DSH_INSTALL_DIR.slice(0, at + marker.length - 1)}`)
+    }
+  }
+  for (const asar of asarCandidates) {
+    const version = readAsarVersion(asar)
+    if (version) return version
   }
   return process.env.DSH_VERSION || 'unknown'
 }
