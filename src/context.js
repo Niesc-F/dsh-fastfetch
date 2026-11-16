@@ -82,6 +82,10 @@ function readDshVersion() {
     }
   }
   for (const asar of asarCandidates) {
+    // Electron 运行时把 asar 当目录，直接按路径读就行；
+    // 普通 node 没有这层补丁，会 ENOENT，再退回手动解析。
+    const direct = readJson(path.join(asar, 'package.json'))
+    if (direct && typeof direct.version === 'string' && direct.version) return direct.version
     const version = readAsarVersion(asar)
     if (version) return version
   }
@@ -96,7 +100,36 @@ function readProfileBundles() {
   return Array.isArray(bundles) ? bundles.filter((x) => typeof x === 'string') : []
 }
 
-/** DSH 官方插件包统一使用 @deepseek-ai/ 作用域。 */
+/**
+ * 探测版本号的所有来源，供 `/fastfetch --diag` 排查 unknown。
+ * 只读路径与环境变量，不改任何东西。
+ */
+export function probeVersionSources() {
+  const execDir = path.dirname(process.execPath)
+  const asarCandidates = []
+  if (process.resourcesPath) asarCandidates.push(path.join(process.resourcesPath, 'app.asar'))
+  asarCandidates.push(path.join(execDir, 'resources', 'app.asar'))
+  asarCandidates.push(path.join(execDir, '..', 'resources', 'app.asar'))
+  if (process.env.DSH_INSTALL_DIR) {
+    const marker = `${path.sep}app.asar${path.sep}`
+    const at = process.env.DSH_INSTALL_DIR.indexOf(marker)
+    if (at > 0) asarCandidates.unshift(process.env.DSH_INSTALL_DIR.slice(0, at + marker.length - 1))
+  }
+  return {
+    resolved: readDshVersion(),
+    resourcesPath: process.resourcesPath ?? null,
+    execPath: process.execPath,
+    installDir: process.env.DSH_INSTALL_DIR ?? null,
+    envVersion: process.env.DSH_VERSION ?? null,
+    asar: asarCandidates.map((file) => ({ file, exists: fs.existsSync(file), version: readAsarVersion(file) ?? null })),
+    packageJson: [
+      path.join(execDir, 'resources', 'package.json'),
+      path.join(execDir, '..', 'resources', 'package.json'),
+    ].map((file) => ({ file, exists: fs.existsSync(file) })),
+  }
+}
+
+
 function isDshBuiltinPackage(name) {
   return typeof name === 'string' && name.startsWith('@deepseek-ai/')
 }

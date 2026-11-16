@@ -20,6 +20,7 @@ import {
   PLUGIN_VERSION,
   normalizeConfig,
 } from './config.js'
+import { probeVersionSources } from './context.js'
 
 /** Client 设置页调用的服务名；endpoint 形如 `fastfetchApi/get`。 */
 export const SERVICE_KEY = 'fastfetchApi'
@@ -167,6 +168,8 @@ export function createConfigApi(ctx, rawConfig, listModules) {
         fiberState: ctx?.fiber?.state ?? null,
         normalized: normalizeConfig(entry?.options?.config ?? rawConfig ?? {}),
         explicit: diffConfig(normalizeConfig(entry?.options?.config ?? rawConfig ?? {})) ?? {},
+        // 版本号来源排查：DSH 新版把版本收进了 app.asar，这里把探测到的关键路径暴露出来
+        versionProbe: probeVersionSources(),
       }
     },
 
